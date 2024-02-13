@@ -10,3 +10,81 @@
     import 'relative/path/to/stylesheet.scss';
 
 */
+
+
+
+body {background-image: url("../img/Fondo\ relojes.jpeg");
+    background-repeat: no-repeat;
+    background-size: 100vw 100vh;}
+
+h1{
+    font-family:'Caesar Dressing';
+}
+#digit{
+    width: 9vw;
+    height: 15vw;
+    box-shadow: 1px 1px 10px rgb(25, 25, 25), -1px -1px 10px rgb(25, 25, 25);
+}
+#top{
+    height: 1vh;
+    width: 5vw;
+    left: 2vw;
+    top: 1vw;
+    background: red;
+    box-shadow: 1px 1px 10px red, -1px -1px 10px red;
+}
+#topLeft{
+    height: 5vw;
+    width: 1vh;
+    left: 1vw;
+    top: 2vw;
+    background: red;
+    box-shadow: 1px 1px 10px red, -1px -1px 10px red;
+}
+#topRight{
+    height: 5vw;
+    width: 1vh;
+    right: 1vw;
+    top: 2vw;
+    background: red;
+    box-shadow: 1px 1px 10px red, -1px -1px 10px red;
+}
+#center{
+    height: 1vh;
+    width: 5vw;
+    left: 2vw;
+    top: 7vw;
+    background: red;
+    box-shadow: 1px 1px 10px red, -1px -1px 10px red;
+}
+#bottomLeft{
+    height: 5vw;
+    width: 1vh;
+    left: 1vw;
+    top: 8vw;
+    background: red;
+    box-shadow: 1px 1px 10px red, -1px -1px 10px red;
+}
+#bottomRight{
+    height: 5vw;
+    width: 1vh;
+    right: 1vw;
+    top: 8vw;
+    background: red;
+    box-shadow: 1px 1px 10px red, -1px -1px 10px red;
+}
+#bottom{
+    height: 1vh;
+    width: 5vw;
+    left: 2vw;
+    bottom: 1vw;
+    background: red;
+    box-shadow: 1px 1px 10px red, -1px -1px 10px red;
+}
+#header{
+    margin: 0 auto;
+}
+.chronos{
+    width:5vh;
+    height: 5vh;
+}
