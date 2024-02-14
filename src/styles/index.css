@@ -20,6 +20,9 @@ body {background-image: url("../img/Fondo\ relojes.jpeg");
 h1{
     font-family:'Caesar Dressing';
 }
+#header{
+    margin: 0 auto;
+}
 #digit{
     width: 9vw;
     height: 15vw;
@@ -97,10 +100,21 @@ h1{
     background: red;
     box-shadow: 1px 1px 10px red, -1px -1px 10px red;
 }
-#header{
-    margin: 0 auto;
+
+#setTime{
+    width: 50vw;
 }
+
 .chronos{
     width:5vh;
     height: 5vh;
+}
+.active{
+    font-weight: bold;
+}
+
+@media (max-width: 991px){
+    #setTime{
+        width:100vw;
+    }
 }

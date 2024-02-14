@@ -12,19 +12,19 @@ const Navbar = (props) => {
                 <div className='collapse navbar-collapse justify-content-center' id='tabSelector'>
                     <ul className="navbar-nav">
                         <li className="nav-item me-5">
-                            <a id="counter" className={`nav-link ${props.active}`} aria-current="page" href="#">Second Counter</a>
+                            <a id="counter" className={`nav-link ${props.active[0]}`} aria-current="page" href="#">Second Counter</a>
                         </li>
                         <li className="nav-item me-5">
-                            <a id="chronometer" className={`nav-link ${props.active}`} href="#">Chronometer</a>
+                            <a id="chrono" className={`nav-link ${props.active[1]}`} href="#">Chronometer</a>
                         </li>
                         <li className="nav-item me-5">
-                            <a id="countdown" className={`nav-link ${props.active}`} href="#">Countdown</a>
+                            <a id="countdown" className={`nav-link ${props.active[2]}`} href="#">Countdown</a>
                         </li>
                         <li className="nav-item me-5">
-                            <a id="clock" className={`nav-link ${props.active}`} href="#">Clock</a>
+                            <a id="clock" className={`nav-link ${props.active[3]}`} href="#">Clock</a>
                         </li>
                         <li className="nav-item me-5">
-                            <a id="alarm" className={`nav-link ${props.active}`} href="#">Alarm</a>
+                            <a id="alarm" className={`nav-link ${props.active[4]}`} href="#">Alarm</a>
                         </li>
                     </ul>
                 </div>
