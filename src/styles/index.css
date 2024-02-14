@@ -23,7 +23,7 @@ h1{
 #digit{
     width: 9vw;
     height: 15vw;
-    box-shadow: 1px 1px 10px rgb(25, 25, 25), -1px -1px 10px rgb(25, 25, 25);
+    box-shadow: 1px 1px 30px rgb(25, 25, 25), -1px -1px 30px rgb(25, 25, 25);
 }
 #top{
     height: 1vh;
@@ -49,11 +49,27 @@ h1{
     background: red;
     box-shadow: 1px 1px 10px red, -1px -1px 10px red;
 }
+#dotTop{
+    height: 1vw;
+    width: 1vw;
+    left: 4vw;
+    top: 4vw;
+    background: red;
+    box-shadow: 1px 1px 10px red, -1px -1px 10px red;
+}
 #center{
     height: 1vh;
     width: 5vw;
     left: 2vw;
     top: 7vw;
+    background: red;
+    box-shadow: 1px 1px 10px red, -1px -1px 10px red;
+}
+#dotBottom{
+    height: 1vw;
+    width: 1vw;
+    left: 4vw;
+    bottom: 4vw;
     background: red;
     box-shadow: 1px 1px 10px red, -1px -1px 10px red;
 }

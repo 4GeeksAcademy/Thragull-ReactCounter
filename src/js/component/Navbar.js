@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Navbar = () => {
+const Navbar = (props) => {
   return (
     <div>
         <nav className='navbar navbar-expand-lg bg-body-secondary'>
@@ -12,16 +12,19 @@ const Navbar = () => {
                 <div className='collapse navbar-collapse justify-content-center' id='tabSelector'>
                     <ul className="navbar-nav">
                         <li className="nav-item me-5">
-                            <a className="nav-link active" aria-current="page" href="#">Second Counter</a>
+                            <a id="counter" className={`nav-link ${props.active}`} aria-current="page" href="#">Second Counter</a>
                         </li>
                         <li className="nav-item me-5">
-                            <a className="nav-link" href="#">Chronometer</a>
+                            <a id="chronometer" className={`nav-link ${props.active}`} href="#">Chronometer</a>
                         </li>
                         <li className="nav-item me-5">
-                            <a className="nav-link" href="#">Countdown</a>
+                            <a id="countdown" className={`nav-link ${props.active}`} href="#">Countdown</a>
                         </li>
                         <li className="nav-item me-5">
-                            <a className="nav-link" href="#">Clock</a>
+                            <a id="clock" className={`nav-link ${props.active}`} href="#">Clock</a>
+                        </li>
+                        <li className="nav-item me-5">
+                            <a id="alarm" className={`nav-link ${props.active}`} href="#">Alarm</a>
                         </li>
                     </ul>
                 </div>
