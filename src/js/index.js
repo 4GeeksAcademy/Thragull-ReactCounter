@@ -14,6 +14,7 @@ let seconds = 0;
 let grados = 0;
 let active = ["active","","","",""];
 let chronoPlay = false;
+let alarmSet = false;
 
 //render your react application
 
@@ -164,6 +165,32 @@ function restartTimer() {
     setTimer();
 }
 
+function setAlarm (){
+    let btnSetAlarm = document.getElementById("btnSetTime")
+    let setHours = document.getElementById("hour").valueAsNumber
+    let setMinutes = document.getElementById("minute").valueAsNumber
+    let setSeconds = document.getElementById("second").valueAsNumber
+    let hours = 0
+    let minutes = 0
+    let secs = 0;
+
+    if (! isNaN(setHours)) hours = setHours
+    if (! isNaN(setMinutes)) minutes= setMinutes
+    if (! isNaN(setSeconds)) secs= setSeconds
+
+    if (alarmSet){
+        btnSetAlarm.classList.replace("btn-danger","btn-success")
+        alarmSet=false;
+    }
+    else{
+        btnSetAlarm.classList.replace("btn-success","btn-danger")
+        alarmSet=true;
+        seconds=timeToSeconds(hours, minutes, secs)
+    }
+    
+
+}
+
 
 // Now we create the event listeners for the site selection.
 
@@ -187,6 +214,7 @@ setInterval(() => {
     }
     if (active[2]==="active"){
         ReactDOM.render(<Home digits={chronometer(seconds)} seconds={seconds} active={active}/>, document.querySelector("#app"));
+
         let setTime = document.getElementById("btnSetTime")
         let restartChrono = document.getElementById("restartChrono");
         let playChrono = document.getElementById("play-pause")
@@ -202,6 +230,14 @@ setInterval(() => {
     }
     if (active[4]==="active"){
         ReactDOM.render(<Home digits={actualTime()} seconds={seconds} active={active}/>, document.querySelector("#app"));
+
+        let setTime = document.getElementById("btnSetTime")
+
+        setTime.addEventListener("click", setAlarm)
+        if (alarmSet && (chronometer(seconds).toString() === actualTime().toString())) {
+            setAlarm()
+            alert("It's time to Wake UP !!!")
+        }
     }
     let secundero = document.getElementById("secundero");
     /*secundero.style.rotate = `${grados}deg`*/
