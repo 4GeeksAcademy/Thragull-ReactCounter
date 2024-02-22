@@ -8,12 +8,16 @@ import "../styles/index.css";
 //import your own components
 import Home from "./component/Home.js";
 
-//render your react application
-let seconds = 3550;
+// Set global variables
+
+let seconds = 0;
 let grados = 0;
 let active = ["active","","","",""];
+let chronoPlay = false;
 
-ReactDOM.render(<Home digits={actualTime()} seconds={seconds} active={active}/>, document.querySelector("#app"));
+//render your react application
+
+ReactDOM.render(<Home digits={transformToDigits(seconds)} seconds={seconds} active={active}/>, document.querySelector("#app"));
 
 // This function transforms the given seconds into single digits and store them into an array 
 function transformToDigits (parameterSeconds){
@@ -46,6 +50,8 @@ function chronometer (parameterSeconds){
     return time;
 }
 
+
+
 // This function gets the actual real time of your location and separates it in hours, minutes and seconds.
 // It transforms them into digits and stores all the information in an array with the same format as previous function.
 function actualTime (){
@@ -71,6 +77,9 @@ let countdown = document.getElementById("countdown");
 let clock = document.getElementById("clock");
 let alarm = document.getElementById("alarm");
 
+
+
+
 secondCounter.addEventListener("click", counterSelected);
 chrono.addEventListener("click", chronoSelected);
 countdown.addEventListener("click", countdownSelected);
@@ -80,16 +89,19 @@ alarm.addEventListener("click", alarmSelected);
 // We create the functions that will select each section by setting the class "active" in the relevant element of the array active
 
 function counterSelected() {
-    active.forEach((element) => { if (element==="active") element=""});
+    active.forEach((element, index) => { if (element==="active") active[index]=""});
     active[0]="active";
+    seconds=0;
 }
 function chronoSelected() {
     active.forEach((element, index) => { if (element==="active") active[index]=""});
     active[1]="active";
+    seconds=0;
 }
 function countdownSelected() {
     active.forEach((element, index) => { if (element==="active") active[index]=""});
     active[2]="active";
+    seconds=0;
 }
 function clockSelected() {
     active.forEach((element, index) => { if (element==="active") active[index]=""});
@@ -99,18 +111,101 @@ function alarmSelected() {
     active.forEach((element, index) => { if (element==="active") active[index]=""});
     active[4]="active";
 }
+function restartCounter() {
+    seconds=0;
+}
+function restartChronometer() {
+    let button = document.getElementById("play-pause")
+    
+    button.classList.replace("btn-danger", "btn-secondary")
+    button.innerHTML= `<i class="fa-solid fa-play"></i>`;
+    chronoPlay = false
+    seconds=0;
+}
+function startChrono() {
+    let button = document.getElementById("play-pause")
+    
+    if (chronoPlay) {
+        button.classList.replace("btn-danger", "btn-secondary")
+        button.innerHTML= `<i class="fa-solid fa-play"></i>`;
+        chronoPlay = false
+    }
+    else {
+        button.classList.replace("btn-secondary", "btn-danger")
+        button.innerHTML= `<i class="fa-solid fa-pause"></i>`;
+        chronoPlay = true
+    }
+}
+function setTimer (){
+    let setHours = document.getElementById("hour").valueAsNumber
+    let setMinutes = document.getElementById("minute").valueAsNumber
+    let setSeconds = document.getElementById("second").valueAsNumber
+    let hours = 0
+    let minutes = 0
+    let secs = 0;
+
+    if (! isNaN(setHours)) hours = setHours
+    if (! isNaN(setMinutes)) minutes= setMinutes
+    if (! isNaN(setSeconds)) secs= setSeconds
+
+    seconds=timeToSeconds(hours, minutes, secs)
+}
+
+function timeToSeconds (hours, minutes, seconds){
+    return (hours*60*60+minutes*60+seconds)
+}
+
+function restartTimer() {
+    let button = document.getElementById("play-pause")
+    
+    button.classList.replace("btn-danger", "btn-secondary")
+    button.innerHTML= `<i class="fa-solid fa-play"></i>`;
+    chronoPlay = false
+    setTimer();
+}
+
 
 // Now we create the event listeners for the site selection.
 
 
 
 setInterval(() => {
-    ReactDOM.render(<Home digits={actualTime()} seconds={seconds} active={active}/>, document.querySelector("#app"));
+    if (active[0]==="active"){
+        ReactDOM.render(<Home digits={transformToDigits(seconds)} seconds={seconds} active={active}/>, document.querySelector("#app"));
+        let restart = document.getElementById("restart");
+        restart.addEventListener("click", restartCounter)
+        seconds++;
+        if (seconds === 100000000) seconds = 0;
+    }
+    if (active[1]==="active"){
+        ReactDOM.render(<Home digits={chronometer(seconds)} seconds={seconds} active={active}/>, document.querySelector("#app"));
+        let restartChrono = document.getElementById("restartChrono");
+        let playChrono = document.getElementById("play-pause")
+        restartChrono.addEventListener("click", restartChronometer)
+        playChrono.addEventListener("click", startChrono)
+        if (chronoPlay) seconds++;
+    }
+    if (active[2]==="active"){
+        ReactDOM.render(<Home digits={chronometer(seconds)} seconds={seconds} active={active}/>, document.querySelector("#app"));
+        let setTime = document.getElementById("btnSetTime")
+        let restartChrono = document.getElementById("restartChrono");
+        let playChrono = document.getElementById("play-pause")
+        
+        restartChrono.addEventListener("click", restartTimer)
+        playChrono.addEventListener("click", startChrono)
+        setTime.addEventListener("click", setTimer)
+
+        if (chronoPlay && (seconds >0)) seconds--;
+    }
+    if (active[3]==="active"){
+        ReactDOM.render(<Home digits={actualTime()} seconds={seconds} active={active}/>, document.querySelector("#app"));
+    }
+    if (active[4]==="active"){
+        ReactDOM.render(<Home digits={actualTime()} seconds={seconds} active={active}/>, document.querySelector("#app"));
+    }
     let secundero = document.getElementById("secundero");
-    /*secundero.style.rotate = `${grados}deg`
-    transformToDigits(seconds)*/
-    seconds++;
-    if (seconds === 100000000) seconds = 0;
+    /*secundero.style.rotate = `${grados}deg`*/
+    
     grados += 6;
     if (grados === 360) grados = 0;
     
