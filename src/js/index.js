@@ -15,6 +15,7 @@ let grados = 0;
 let active = ["active","","","",""];
 let chronoPlay = false;
 let alarmSet = false;
+let decimals = 0;
 
 //render your react application
 
@@ -93,16 +94,19 @@ function counterSelected() {
     active.forEach((element, index) => { if (element==="active") active[index]=""});
     active[0]="active";
     seconds=0;
+    decimals=0;
 }
 function chronoSelected() {
     active.forEach((element, index) => { if (element==="active") active[index]=""});
     active[1]="active";
     seconds=0;
+    decimals=0;
 }
 function countdownSelected() {
     active.forEach((element, index) => { if (element==="active") active[index]=""});
     active[2]="active";
     seconds=0;
+    decimals=0;
 }
 function clockSelected() {
     active.forEach((element, index) => { if (element==="active") active[index]=""});
@@ -114,6 +118,7 @@ function alarmSelected() {
 }
 function restartCounter() {
     seconds=0;
+    decimals=0;
 }
 function restartChronometer() {
     let button = document.getElementById("play-pause")
@@ -122,6 +127,7 @@ function restartChronometer() {
     button.innerHTML= `<i class="fa-solid fa-play"></i>`;
     chronoPlay = false
     seconds=0;
+    decimals=0;
 }
 function startChrono() {
     let button = document.getElementById("play-pause")
@@ -201,8 +207,13 @@ setInterval(() => {
         ReactDOM.render(<Home digits={transformToDigits(seconds)} seconds={seconds} active={active}/>, document.querySelector("#app"));
         let restart = document.getElementById("restart");
         restart.addEventListener("click", restartCounter)
-        seconds++;
-        if (seconds === 100000000) seconds = 0;
+        decimals++;
+        if (decimals === 10){
+            decimals = 0;
+            seconds++;
+            if (seconds === 100000000) seconds = 0;
+        }
+        
     }
     if (active[1]==="active"){
         ReactDOM.render(<Home digits={chronometer(seconds)} seconds={seconds} active={active}/>, document.querySelector("#app"));
@@ -210,7 +221,14 @@ setInterval(() => {
         let playChrono = document.getElementById("play-pause")
         restartChrono.addEventListener("click", restartChronometer)
         playChrono.addEventListener("click", startChrono)
-        if (chronoPlay) seconds++;
+        
+        if (chronoPlay) {
+            decimals++;
+            if (decimals === 10){
+                decimals = 0;
+                seconds++;
+            } 
+        }
     }
     if (active[2]==="active"){
         ReactDOM.render(<Home digits={chronometer(seconds)} seconds={seconds} active={active}/>, document.querySelector("#app"));
@@ -222,8 +240,14 @@ setInterval(() => {
         restartChrono.addEventListener("click", restartTimer)
         playChrono.addEventListener("click", startChrono)
         setTime.addEventListener("click", setTimer)
-
-        if (chronoPlay && (seconds >0)) seconds--;
+        
+        if (chronoPlay && (seconds >0)) {
+            decimals++
+            if (decimals === 10){
+                decimals = 0;
+                seconds--;
+            }
+        }
     }
     if (active[3]==="active"){
         ReactDOM.render(<Home digits={actualTime()} seconds={seconds} active={active}/>, document.querySelector("#app"));
@@ -246,4 +270,4 @@ setInterval(() => {
     if (grados === 360) grados = 0;
     
 
-} ,1000)
+} ,100)
