@@ -11,7 +11,7 @@ import Home from "./component/Home.js";
 // Set global variables
 
 let seconds = 0;
-let grados = 0;
+let degrees = [0, 0, 0, 0, 0];
 let active = ["active","","","",""];
 let chronoPlay = false;
 let alarmSet = false;
@@ -263,11 +263,16 @@ setInterval(() => {
             alert("It's time to Wake UP !!!")
         }
     }
-    let secundero = document.getElementById("secundero");
-    /*secundero.style.rotate = `${grados}deg`*/
+    let secundero = document.getElementById("second");
+    let minutero = document.getElementById("minute");
+    let hora = document.getElementById("hour");
+    secundero.style.rotate = `${degrees[2]}deg`;
+    minutero.style.rotate = `${degrees[1]}deg`;
+    hora.style.rotate = `${degrees[0]}deg`;
     
-    grados += 6;
-    if (grados === 360) grados = 0;
+    degrees[1] += .6/60
+    degrees[2] += 0.6;
+    if (degrees[2] === 360) degrees[2] = 0;
     
 
 } ,100)

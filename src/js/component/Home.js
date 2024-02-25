@@ -6,9 +6,10 @@ import Counter from "./Counter";
 import Restart from "./Restart";
 import Controls from "./Controls";
 import SetTime from "./SetTime";
+import Watch from "./Watch";
 
 //include images into your bundle
-import secundero from "../../img/secundero.png";
+
 
 
 //create your first component
@@ -18,7 +19,8 @@ const Home = (props) => {
 			<>
 				<Header />
 				<Navbar active={props.active}/>
-				<Counter digits={props.digits}/>
+				{/*<Counter digits={props.digits}/>*/}
+				<Watch />
 				<Restart />
 				<Footer />
 			</>

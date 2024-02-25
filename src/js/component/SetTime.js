@@ -7,9 +7,9 @@ const SetTime = () => {
                 <span className="input-group-text bg-dark border-dark text-white">Hours</span>
                 <input id="hour" type="number" className="form-control col-1" placeholder="hh" min={0} max={23} aria-label="Hours"></input>
                 <span className="input-group-text bg-dark border-dark text-white">Minutes</span>
-                <input id="minute" type="number" className="form-control col-1" placeholder="hh" min={0} max={59} aria-label="Hours"></input>
+                <input id="minute" type="number" className="form-control col-1" placeholder="mm" min={0} max={59} aria-label="Hours"></input>
                 <span className="input-group-text bg-dark border-dark text-white">Seconds</span>
-                <input id="second" type="number" className="form-control col-1" placeholder="hh" min={0} max={59} aria-label="Hours"></input>
+                <input id="second" type="number" className="form-control col-1" placeholder="ss" min={0} max={59} aria-label="Hours"></input>
             </div>
             <button id="btnSetTime" className="container-fluid d-flex justify-content-center btn btn-success col-6 col-md-4 col-lg-2">Set</button>
         </div>

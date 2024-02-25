@@ -109,8 +109,38 @@ h1{
     width:5vh;
     height: 5vh;
 }
+
 .active{
     font-weight: bold;
+}
+#watchContainer{
+    height:750px;
+    width: 682px;
+}
+
+#hour{
+    left: 203px;
+    top: 237px;
+}
+
+#minute{
+    left: 141px;
+    top: 177px;
+}
+
+#day{
+    left: 146px;
+    top: 302px;
+}
+
+#month{
+    left: 265px;
+    top: 420px;
+}
+
+#second{
+    left: 384px;
+    top: 302px;
 }
 
 @media (max-width: 991px){
