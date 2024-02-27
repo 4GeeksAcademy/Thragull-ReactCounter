@@ -19,8 +19,7 @@ const Home = (props) => {
 			<>
 				<Header />
 				<Navbar active={props.active}/>
-				{/*<Counter digits={props.digits}/>*/}
-				<Watch />
+				{props.digital ?  <Counter digits={props.digits}/> : <Watch /> }
 				<Restart />
 				<Footer />
 			</>
@@ -31,7 +30,7 @@ const Home = (props) => {
 			<>
 				<Header />
 				<Navbar active={props.active}/>
-				<Counter digits={props.digits}/>
+				{props.digital ?  <Counter digits={props.digits}/> : <Watch /> }
 				<Controls />
 				<Footer />
 			</>
@@ -42,10 +41,10 @@ const Home = (props) => {
 			<>
 				<Header />
 				<Navbar active={props.active}/>
-				<Counter digits={props.digits}/>
+				{props.digital ?  <Counter digits={props.digits}/> : <Watch /> }
 				<SetTime />
 				<Controls />
-				<Footer />
+				{/*<Footer />*/}
 			</>
 		);
 	};
@@ -54,7 +53,7 @@ const Home = (props) => {
 			<>
 				<Header />
 				<Navbar active={props.active}/>
-				<Counter digits={props.digits}/>
+				{props.digital ?  <Counter digits={props.digits}/> : <Watch /> }
 				<Footer />
 			</>
 		);
@@ -64,7 +63,7 @@ const Home = (props) => {
 			<>
 				<Header />
 				<Navbar active={props.active}/>
-				<Counter digits={props.digits}/>
+				{props.digital ?  <Counter digits={props.digits}/> : <Watch /> }
 				<SetTime />
 				<Footer />
 			</>

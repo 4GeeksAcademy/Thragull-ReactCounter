@@ -9,6 +9,10 @@ const Navbar = (props) => {
                         aria-expanded="false" aria-label='toggleNavigation'>
                     <span className='navbar-toggler-icon'></span>
                 </button>
+                <select id="watchSelector" className="form-select col-2" aria-label="Select Watch">
+                    <option value="digital" selected>Digital</option>
+                    <option value="analogic">Analogic</option>                                                                                                                       
+                </select>
                 <div className='collapse navbar-collapse justify-content-center' id='tabSelector'>
                     <ul className="navbar-nav">
                         <li className="nav-item me-5">
@@ -28,7 +32,8 @@ const Navbar = (props) => {
                         </li>
                     </ul>
                 </div>
-            </div>
+            </div> 
+            
         </nav>
     </div>
   )

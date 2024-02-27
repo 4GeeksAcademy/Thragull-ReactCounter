@@ -11,15 +11,15 @@ import Home from "./component/Home.js";
 // Set global variables
 
 let seconds = 0;
-let degrees = [0, 0, 0, 0, 0];
 let active = ["active","","","",""];
+let digital = true;
 let chronoPlay = false;
 let alarmSet = false;
 let decimals = 0;
 
 //render your react application
 
-ReactDOM.render(<Home digits={transformToDigits(seconds)} seconds={seconds} active={active}/>, document.querySelector("#app"));
+ReactDOM.render(<Home digits={transformToDigits(seconds)} digital={digital} active={active}/>, document.querySelector("#app"));
 
 // This function transforms the given seconds into single digits and store them into an array 
 function transformToDigits (parameterSeconds){
@@ -30,6 +30,21 @@ function transformToDigits (parameterSeconds){
         digits.unshift(i % 10);
     }
     return digits;
+}
+
+function transformToDegrees (timeArray){
+    // This array stores the degrees for the movement of the watch handles in the following order:
+    // Month, Day, Hour, Minute, Second
+
+    let degrees = [0, 0, 0, 0, 0];
+
+    degrees[0] = timeArray[0] * 30;
+    degrees[1] = timeArray[1] * 12;
+    degrees[2] = timeArray[2] * 30;
+    degrees[3] = timeArray[3] * 6;
+    degrees[4] = timeArray[4] * 6;
+
+    return degrees
 }
 
 // This function transforms the given seconds in hours, minutes and seconds. Then it transforms them into single digits and 
@@ -56,7 +71,7 @@ function chronometer (parameterSeconds){
 
 // This function gets the actual real time of your location and separates it in hours, minutes and seconds.
 // It transforms them into digits and stores all the information in an array with the same format as previous function.
-function actualTime (){
+function actualTimeDigital (){
     const date = new Date();
     let time =  [(Math.floor(date.getHours()/10)),
                 (date.getHours() % 10), 
@@ -67,6 +82,18 @@ function actualTime (){
                 (Math.floor(date.getSeconds()/10)),
                 (date.getSeconds() % 10)
                 ];
+    return time;
+}
+
+function actualTimeAnalog (){
+    const date = new Date();
+    let time =  [
+                date.getMonth()+1,
+                date.getDate(),
+                date.getHours(),
+                date.getMinutes(),
+                date.getSeconds()
+            ];
     return time;
 }
 
@@ -111,10 +138,14 @@ function countdownSelected() {
 function clockSelected() {
     active.forEach((element, index) => { if (element==="active") active[index]=""});
     active[3]="active";
+    seconds=0;
+    decimals=0;
 }
 function alarmSelected() {
     active.forEach((element, index) => { if (element==="active") active[index]=""});
     active[4]="active";
+    seconds=0;
+    decimals=0;
 }
 function restartCounter() {
     seconds=0;
@@ -143,6 +174,7 @@ function startChrono() {
         chronoPlay = true
     }
 }
+
 function setTimer (){
     let setHours = document.getElementById("hour").valueAsNumber
     let setMinutes = document.getElementById("minute").valueAsNumber
@@ -160,6 +192,19 @@ function setTimer (){
 
 function timeToSeconds (hours, minutes, seconds){
     return (hours*60*60+minutes*60+seconds)
+}
+
+function secondsToTime (seconds){
+    const date = new Date();
+    let time =  [
+                date.getMonth()+1,
+                date.getDate(),
+                Math.floor(Math.floor(seconds/60) / 60) % 12,
+                Math.floor(seconds/60) % 60,
+                seconds%60
+            ];
+
+    return time;
 }
 
 function restartTimer() {
@@ -193,18 +238,42 @@ function setAlarm (){
         alarmSet=true;
         seconds=timeToSeconds(hours, minutes, secs)
     }
-    
-
 }
 
+function renderHandles (degreesArray, decimals) {
+    let mes = document.getElementById("monthHandle");
+    let dia = document.getElementById("dayHandle");
+    let secundero = document.getElementById("secondHandle");
+    let minutero = document.getElementById("minuteHandle");
+    let hora = document.getElementById("hourHandle");
+
+    secundero.style.rotate = `${degreesArray[4]+(0.6*decimals)}deg`;
+    minutero.style.rotate = `${degreesArray[3]+(6/360*degreesArray[4])}deg`;
+    hora.style.rotate = `${degreesArray[2]+(30/360*(degreesArray[3]+(6/360*degreesArray[4])))}deg`;
+    dia.style.rotate = `${degreesArray[1]}deg`;
+    mes.style.rotate = `${degreesArray[0]}deg`;   
+}
+
+function setActualDecimals () {
+    const date = new Date();
+
+    return Math.floor(date.getMilliseconds()/100)
+}
 
 // Now we create the event listeners for the site selection.
 
 
 
+
+
 setInterval(() => {
+    let watchSelector = document.getElementById("watchSelector");
+
+    if (watchSelector.value === "digital") digital=true;
+    else digital = false;
+
     if (active[0]==="active"){
-        ReactDOM.render(<Home digits={transformToDigits(seconds)} seconds={seconds} active={active}/>, document.querySelector("#app"));
+        ReactDOM.render(<Home digits={transformToDigits(seconds)} digital={digital} active={active}/>, document.querySelector("#app"));
         let restart = document.getElementById("restart");
         restart.addEventListener("click", restartCounter)
         decimals++;
@@ -213,15 +282,18 @@ setInterval(() => {
             seconds++;
             if (seconds === 100000000) seconds = 0;
         }
+        if (!digital) renderHandles(transformToDegrees(secondsToTime(seconds)), decimals)
         
     }
     if (active[1]==="active"){
-        ReactDOM.render(<Home digits={chronometer(seconds)} seconds={seconds} active={active}/>, document.querySelector("#app"));
+        ReactDOM.render(<Home digits={chronometer(seconds)} digital={digital} active={active}/>, document.querySelector("#app"));
         let restartChrono = document.getElementById("restartChrono");
         let playChrono = document.getElementById("play-pause")
         restartChrono.addEventListener("click", restartChronometer)
         playChrono.addEventListener("click", startChrono)
-        
+
+        if (!digital) renderHandles(transformToDegrees(secondsToTime(seconds)), decimals)
+
         if (chronoPlay) {
             decimals++;
             if (decimals === 10){
@@ -231,7 +303,7 @@ setInterval(() => {
         }
     }
     if (active[2]==="active"){
-        ReactDOM.render(<Home digits={chronometer(seconds)} seconds={seconds} active={active}/>, document.querySelector("#app"));
+        ReactDOM.render(<Home digits={chronometer(seconds)} digital={digital} active={active}/>, document.querySelector("#app"));
 
         let setTime = document.getElementById("btnSetTime")
         let restartChrono = document.getElementById("restartChrono");
@@ -240,39 +312,43 @@ setInterval(() => {
         restartChrono.addEventListener("click", restartTimer)
         playChrono.addEventListener("click", startChrono)
         setTime.addEventListener("click", setTimer)
+
+        if (!digital) renderHandles(transformToDegrees(secondsToTime(seconds)), decimals)
         
         if (chronoPlay && (seconds >0)) {
-            decimals++
-            if (decimals === 10){
-                decimals = 0;
+            if (decimals === 0){
+                decimals = 10;
                 seconds--;
             }
+            decimals--
         }
     }
     if (active[3]==="active"){
-        ReactDOM.render(<Home digits={actualTime()} seconds={seconds} active={active}/>, document.querySelector("#app"));
+        ReactDOM.render(<Home digits={actualTimeDigital()} digital={digital} active={active}/>, document.querySelector("#app"));
+        
+    
+
+        decimals = setActualDecimals();
+
+        if (!digital) renderHandles(transformToDegrees(actualTimeAnalog()), decimals)
     }
     if (active[4]==="active"){
-        ReactDOM.render(<Home digits={actualTime()} seconds={seconds} active={active}/>, document.querySelector("#app"));
+        ReactDOM.render(<Home digits={actualTimeDigital()} digital={digital} active={active}/>, document.querySelector("#app"));
+        
+        decimals= setActualDecimals()
+
+        if (!digital) renderHandles(transformToDegrees(actualTimeAnalog()), decimals)
 
         let setTime = document.getElementById("btnSetTime")
 
         setTime.addEventListener("click", setAlarm)
-        if (alarmSet && (chronometer(seconds).toString() === actualTime().toString())) {
+        if (alarmSet && (chronometer(seconds).toString() === actualTimeDigital().toString())) {
             setAlarm()
             alert("It's time to Wake UP !!!")
         }
     }
-    let secundero = document.getElementById("second");
-    let minutero = document.getElementById("minute");
-    let hora = document.getElementById("hour");
-    secundero.style.rotate = `${degrees[2]}deg`;
-    minutero.style.rotate = `${degrees[1]}deg`;
-    hora.style.rotate = `${degrees[0]}deg`;
+
     
-    degrees[1] += .6/60
-    degrees[2] += 0.6;
-    if (degrees[2] === 360) degrees[2] = 0;
     
 
 } ,100)
