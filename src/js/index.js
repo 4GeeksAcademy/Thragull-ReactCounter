@@ -20,6 +20,7 @@ let decimals = 0;
 //render your react application
 
 ReactDOM.render(<Home digits={transformToDigits(seconds)} digital={digital} active={active}/>, document.querySelector("#app"));
+console.log(innerHeight);
 
 // This function transforms the given seconds into single digits and store them into an array 
 function transformToDigits (parameterSeconds){
@@ -262,6 +263,32 @@ function setActualDecimals () {
 
 // Now we create the event listeners for the site selection.
 
+function launchAlarm () {
+    let alarmAlert = document.getElementById("alarmAlert")
+    
+    alarmAlert.classList.add("show")
+    alarmAlert.style.display="inline-block";
+}
+
+function closeModal () {
+    let closeButton = document.getElementById("alarmOff")
+    let turnOffButton = document.getElementById("alarmSwitchOff")
+    
+    closeButton.addEventListener("click", turnAlarmOff)
+    turnOffButton.addEventListener("click", turnAlarmOff)
+}
+
+function turnAlarmOff () {
+    let alarmAlert = document.getElementById("alarmAlert")
+    let btnSetAlarm = document.getElementById("btnSetTime")
+    
+    alarmAlert.classList.remove("show")
+    alarmAlert.style.display="none";
+
+    btnSetAlarm.classList.replace("btn-danger","btn-success")
+    alarmSet=false;
+}
+
 
 
 
@@ -322,6 +349,11 @@ setInterval(() => {
             }
             decimals--
         }
+        else if (chronoPlay && seconds ===0 && decimals > 0){
+            decimals--
+        }
+        else if (chronoPlay) restartTimer()
+
     }
     if (active[3]==="active"){
         ReactDOM.render(<Home digits={actualTimeDigital()} digital={digital} active={active}/>, document.querySelector("#app"));
@@ -344,8 +376,10 @@ setInterval(() => {
         setTime.addEventListener("click", setAlarm)
         if (alarmSet && (chronometer(seconds).toString() === actualTimeDigital().toString())) {
             setAlarm()
-            alert("It's time to Wake UP !!!")
+            /*alert("It's time to Wake UP !!!")*/
+            launchAlarm();
         }
+        closeModal();
     }
 
     

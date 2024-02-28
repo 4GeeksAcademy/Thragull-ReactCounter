@@ -7,6 +7,8 @@ import Restart from "./Restart";
 import Controls from "./Controls";
 import SetTime from "./SetTime";
 import Watch from "./Watch";
+import AlertAlarm from "./AlertAlarm";
+import AlarmSound from "./AlarmSound";
 
 //include images into your bundle
 
@@ -44,7 +46,7 @@ const Home = (props) => {
 				{props.digital ?  <Counter digits={props.digits}/> : <Watch /> }
 				<SetTime />
 				<Controls />
-				{/*<Footer />*/}
+				<Footer />
 			</>
 		);
 	};
@@ -65,6 +67,7 @@ const Home = (props) => {
 				<Navbar active={props.active}/>
 				{props.digital ?  <Counter digits={props.digits}/> : <Watch /> }
 				<SetTime />
+				<AlertAlarm />
 				<Footer />
 			</>
 		);

@@ -117,6 +117,7 @@ h1{
 .active{
     font-weight: bold;
 }
+
 #watchContainer{
     height:750px;
     width: 682px;
@@ -150,5 +151,140 @@ h1{
 @media (max-width: 991px){
     #setTime{
         width:100vw;
+    }
+}
+
+@media (max-height: 1000px) {
+    #watch{
+        height: 600px;
+    }
+
+    #watchContainer{
+        height: 600px;
+        width: 545px;
+    }
+    #hourHandle{
+        left: 171px;
+        top: 202px;
+        height: 200px;
+        width: 200px;
+    }
+    
+    #minuteHandle{
+        left: 126px;
+        top: 156px;
+        height: 291px;
+        width: 291px;
+    }
+    
+    #dayHandle{
+        left: 131px;
+        top: 247px;
+        height: 109px;
+        width: 109px;
+    }
+    
+    #monthHandle{
+        left: 217.5px;
+        top: 333.4px;
+        height: 109px;
+        width: 109px;
+    }
+    
+    #secondHandle{
+        left: 304px;
+        top: 247px;
+        height: 109px;
+        width: 109px;
+    }
+}
+
+@media (max-WIDTH: 767px) {
+    #watch{
+        height: 396px;
+    }
+
+    #watchContainer{
+        height: 396px;
+        width: 360px;
+    }
+    #hourHandle{
+        left: 113px;
+        top: 133px;
+        height: 132px;
+        width: 132px;
+    }
+    
+    #minuteHandle{
+        left: 83px;
+        top: 103px;
+        height: 192px;
+        width: 192px;
+    }
+    
+    #dayHandle{
+        left: 86.4px;
+        top: 163px;
+        height: 72px;
+        width: 72px;
+    }
+    
+    #monthHandle{
+        left: 143.4px;
+        top: 220px;
+        height: 72px;
+        width: 72px;
+    }
+    
+    #secondHandle{
+        left: 200.6px;
+        top: 162.5px;
+        height: 72px;
+        width: 72px;
+    }
+}
+
+@media (max-WIDTH: 575px) {
+    #watch{
+        height: 250px;
+    }
+
+    #watchContainer{
+        height: 250px;
+        width: 227px;
+    }
+    #hourHandle{
+        left: 72.1px;
+        top: 84px;
+        height: 83.3px;
+        width: 83.3px;
+    }
+    
+    #minuteHandle{
+        left: 53px;
+        top: 65px;
+        height: 121.2px;
+        width: 121.2px;
+    }
+    
+    #dayHandle{
+        left: 54.3px;
+        top: 102.8px;
+        height: 45.45px;
+        width: 45.45px;
+    }
+    
+    #monthHandle{
+        left: 90.5px;
+        top: 138.8px;
+        height: 45.45px;
+        width: 45.45px;
+    }
+    
+    #secondHandle{
+        left: 126.6px;
+        top: 102.7px;
+        height: 45.45px;
+        width: 45.45px;
     }
 }
