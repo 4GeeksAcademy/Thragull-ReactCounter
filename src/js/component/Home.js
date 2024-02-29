@@ -46,6 +46,8 @@ const Home = (props) => {
 				{props.digital ?  <Counter digits={props.digits}/> : <Watch /> }
 				<SetTime />
 				<Controls />
+				<AlarmSound closeModal={props.closeModal}/>
+				<AlertAlarm alarmActive={props.alarmActive}/>
 				<Footer />
 			</>
 		);
@@ -67,7 +69,8 @@ const Home = (props) => {
 				<Navbar active={props.active}/>
 				{props.digital ?  <Counter digits={props.digits}/> : <Watch /> }
 				<SetTime />
-				<AlertAlarm />
+				<AlertAlarm closeModal={props.closeModal}/>
+				<AlarmSound alarmActive={props.alarmActive}/>
 				<Footer />
 			</>
 		);

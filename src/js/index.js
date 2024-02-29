@@ -16,6 +16,7 @@ let digital = true;
 let chronoPlay = false;
 let alarmSet = false;
 let decimals = 0;
+let alarmActive = false;
 
 //render your react application
 
@@ -268,6 +269,8 @@ function launchAlarm () {
     
     alarmAlert.classList.add("show")
     alarmAlert.style.display="inline-block";
+    playAlarm();
+    alarmActive = true;
 }
 
 function closeModal () {
@@ -287,6 +290,20 @@ function turnAlarmOff () {
 
     btnSetAlarm.classList.replace("btn-danger","btn-success")
     alarmSet=false;
+    stopAlarm();
+    alarmActive=false;
+}
+
+function playAlarm () {
+    let audio = document.getElementById("alarmSound")
+
+    audio.play();
+}
+
+function stopAlarm () {
+    let audio = document.getElementById("alarmSound")
+
+    audio.pause();
 }
 
 
@@ -352,20 +369,21 @@ setInterval(() => {
         else if (chronoPlay && seconds ===0 && decimals > 0){
             decimals--
         }
-        else if (chronoPlay) restartTimer()
-
+        else if (chronoPlay) {
+            restartTimer();
+            launchAlarm ();
+        }
+        if (alarmActive) closeModal();
     }
     if (active[3]==="active"){
         ReactDOM.render(<Home digits={actualTimeDigital()} digital={digital} active={active}/>, document.querySelector("#app"));
-        
     
-
         decimals = setActualDecimals();
 
         if (!digital) renderHandles(transformToDegrees(actualTimeAnalog()), decimals)
     }
     if (active[4]==="active"){
-        ReactDOM.render(<Home digits={actualTimeDigital()} digital={digital} active={active}/>, document.querySelector("#app"));
+        ReactDOM.render(<Home digits={actualTimeDigital()} alarmActive={alarmActive} closeModal={closeModal} digital={digital} active={active}/>, document.querySelector("#app"));
         
         decimals= setActualDecimals()
 
@@ -376,13 +394,9 @@ setInterval(() => {
         setTime.addEventListener("click", setAlarm)
         if (alarmSet && (chronometer(seconds).toString() === actualTimeDigital().toString())) {
             setAlarm()
-            /*alert("It's time to Wake UP !!!")*/
             launchAlarm();
+
         }
-        closeModal();
+        if (alarmActive) closeModal();
     }
-
-    
-    
-
 } ,100)

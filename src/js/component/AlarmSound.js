@@ -1,12 +1,12 @@
 import React from 'react';
-import alarm from '../../sound/alarm.mp3';
 
 const AlarmSound = () => {
-  const [playSound] = useSound('../../sound/alarm.mp3');
-
+   
   return (
     <div>
-      <button onClick={playSound}>Play Sound</button>
+      <audio loop id='alarmSound'>
+        <source src='https://bigsoundbank.com/UPLOAD/mp3/0451.mp3' type="audio/mpeg" />
+      </audio>
     </div>
   );
 };
