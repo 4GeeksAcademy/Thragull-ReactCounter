@@ -236,6 +236,7 @@ function setTimer (){
     let setHours = document.getElementById("hour").valueAsNumber
     let setMinutes = document.getElementById("minute").valueAsNumber
     let setSeconds = document.getElementById("second").valueAsNumber
+    let btnSetAlarm = document.getElementById("btnSetTime")
     let hours = 0
     let minutes = 0
     let secs = 0;
@@ -244,7 +245,17 @@ function setTimer (){
     if (! isNaN(setMinutes)) minutes= setMinutes
     if (! isNaN(setSeconds)) secs= setSeconds
 
-    seconds=timeToSeconds(hours, minutes, secs)
+    if (alarmSet){
+        btnSetAlarm.classList.replace("btn-danger","btn-success")
+        btnSetAlarm.textContent="Set"
+        alarmSet=false;
+    }
+    else{
+        btnSetAlarm.classList.replace("btn-success","btn-danger")
+        alarmSet=true;
+        btnSetAlarm.textContent="Unset"
+        seconds=timeToSeconds(hours, minutes, secs)
+    }
 }
 
 // The following function restarts the countdown timer and stops it if it was playing
