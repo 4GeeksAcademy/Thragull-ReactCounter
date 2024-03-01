@@ -168,32 +168,27 @@ alarm.addEventListener("click", alarmSelected);
 function counterSelected() {
     active.forEach((element, index) => { if (element==="active") active[index]=""});
     active[0]="active";
-    seconds=0;
-    decimals=0;
+    restartControls();
 }
 function chronoSelected() {
     active.forEach((element, index) => { if (element==="active") active[index]=""});
     active[1]="active";
-    seconds=0;
-    decimals=0;
+    restartControls();
 }
 function countdownSelected() {
     active.forEach((element, index) => { if (element==="active") active[index]=""});
     active[2]="active";
-    seconds=0;
-    decimals=0;
+    restartControls();
 }
 function clockSelected() {
     active.forEach((element, index) => { if (element==="active") active[index]=""});
     active[3]="active";
-    seconds=0;
-    decimals=0;
+    restartControls();
 }
 function alarmSelected() {
     active.forEach((element, index) => { if (element==="active") active[index]=""});
     active[4]="active";
-    seconds=0;
-    decimals=0;
+    restartControls();
 }
 
 // The following functions are asociated to the controls of the diferent sections of the site. 
@@ -294,6 +289,26 @@ function setAlarm (){
         btnSetAlarm.textContent="Unset"
         seconds=timeToSeconds(hours, minutes, secs)
     }
+}
+
+// This function will restart all controls every time we change section
+function restartControls () {
+    let btnSetAlarm = document.getElementById("btnSetTime")
+    let button = document.getElementById("play-pause")
+
+    if (alarmSet){
+        btnSetAlarm.classList.replace("btn-danger","btn-success")
+        btnSetAlarm.textContent="Set"
+    }
+    if (chronoPlay) {
+        button.classList.replace("btn-danger", "btn-secondary")
+        button.innerHTML= `<i class="fa-solid fa-play"></i>`;
+    }
+    decimals = 0;
+    seconds = 0;
+    alarmActive = false;
+    alarmSet=false;
+    chronoPlay = false;
 }
 
 // This function will show up the visual alarm and will also start playing the alarm sound
