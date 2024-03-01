@@ -1,4 +1,7 @@
 import React from "react";
+
+// The following array is a translator table to visualize the numbers as a digital digit. Each section of the digits is built in CSS. This table just stablish 
+// wich parts will be shown and wich ones won't. Each index corresponds to its natural digit. Index 10 corresponds to the ":"
 const digitTranslator = [{top:"", topLeft:"", topRight:"", center:"visually-hidden", bottomLeft:"", bottomRight:"", bottom:"", dotTop:"visually-hidden", dotBottom:"visually-hidden"},
                         {top:"visually-hidden", topLeft:"visually-hidden", topRight:"", center:"visually-hidden", bottomLeft:"visually-hidden", bottomRight:"", bottom:"visually-hidden", dotTop:"visually-hidden", dotBottom:"visually-hidden"},
                         {top:"", topLeft:"visually-hidden", topRight:"", center:"", bottomLeft:"", bottomRight:"visually-hidden", bottom:"", dotTop:"visually-hidden", dotBottom:"visually-hidden"},

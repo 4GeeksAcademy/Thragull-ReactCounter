@@ -21,7 +21,6 @@ let alarmActive = false;
 //render your react application
 
 ReactDOM.render(<Home digits={transformToDigits(seconds)} digital={digital} active={active}/>, document.querySelector("#app"));
-console.log(innerHeight);
 
 // This function transforms the given seconds into single digits and store them into an array 
 function transformToDigits (parameterSeconds){
@@ -34,9 +33,11 @@ function transformToDigits (parameterSeconds){
     return digits;
 }
 
+// Given an array wich contains the time in Month, Day, Hours, Minutes and seconds
+// the following function returns an array that will store the degrees that the relevant
+// watch handle images need to rotate.
+// The order in the array is the same as the entry array.
 function transformToDegrees (timeArray){
-    // This array stores the degrees for the movement of the watch handles in the following order:
-    // Month, Day, Hour, Minute, Second
 
     let degrees = [0, 0, 0, 0, 0];
 
@@ -87,6 +88,8 @@ function actualTimeDigital (){
     return time;
 }
 
+// The following function gets the actual real time and stores it in an array in the same format 
+// of the transformToDegrees function.
 function actualTimeAnalog (){
     const date = new Date();
     let time =  [
@@ -99,18 +102,62 @@ function actualTimeAnalog (){
     return time;
 }
 
-// The following logic will create the events to navigate along the site. options.
-// First we get the elements from the HTML that will select each section
+// This function transforms a given time in hours, minutes and seconds into seconds
+function timeToSeconds (hours, minutes, seconds){
+    return (hours*60*60+minutes*60+seconds)
+}
 
+// This function transforms a given time in seconds into Hours, minutes and Seconds
+// and return the data as an array with the following format:
+// Present Month, Present Day, Hours from the given time, Minutes from the given time and seconds from the given time
+function secondsToTime (seconds){
+    const date = new Date();
+    let time =  [
+                date.getMonth()+1,
+                date.getDate(),
+                Math.floor(Math.floor(seconds/60) / 60) % 12,
+                Math.floor(seconds/60) % 60,
+                seconds%60
+            ];
+
+    return time;
+}
+
+// The following function renders the analogic watch and all its components.
+// To do that it receives the array with the relevant degrees and uses the decimals variable to show the handles movement 
+// more accurate and fluid
+function renderHandles (degreesArray, decimals) {
+    let mes = document.getElementById("monthHandle");
+    let dia = document.getElementById("dayHandle");
+    let secundero = document.getElementById("secondHandle");
+    let minutero = document.getElementById("minuteHandle");
+    let hora = document.getElementById("hourHandle");
+
+    secundero.style.rotate = `${degreesArray[4]+(0.6*decimals)}deg`;
+    minutero.style.rotate = `${degreesArray[3]+(6/360*degreesArray[4])}deg`;
+    hora.style.rotate = `${degreesArray[2]+(30/360*(degreesArray[3]+(6/360*degreesArray[4])))}deg`;
+    dia.style.rotate = `${degreesArray[1]}deg`;
+    mes.style.rotate = `${degreesArray[0]}deg`;   
+}
+
+// This function gets the actual decimals of second in order to solve a problem with the movement of the second
+// handle in the Analogic Watch
+function setActualDecimals () {
+    const date = new Date();
+
+    return Math.floor(date.getMilliseconds()/100)
+}
+
+// The following logic will create the events to navigate along the site.
+// First we get the elements from the HTML that will select each section
 let secondCounter = document.getElementById("counter");
 let chrono = document.getElementById("chrono");
 let countdown = document.getElementById("countdown");
 let clock = document.getElementById("clock");
 let alarm = document.getElementById("alarm");
 
-
-
-
+// Now we create the listeners that will listen to the relevant action and select the function to 
+// be executed. 
 secondCounter.addEventListener("click", counterSelected);
 chrono.addEventListener("click", chronoSelected);
 countdown.addEventListener("click", countdownSelected);
@@ -118,7 +165,6 @@ clock.addEventListener("click", clockSelected);
 alarm.addEventListener("click", alarmSelected);
 
 // We create the functions that will select each section by setting the class "active" in the relevant element of the array active
-
 function counterSelected() {
     active.forEach((element, index) => { if (element==="active") active[index]=""});
     active[0]="active";
@@ -149,10 +195,16 @@ function alarmSelected() {
     seconds=0;
     decimals=0;
 }
+
+// The following functions are asociated to the controls of the diferent sections of the site. 
+
+// RestartCounter mainly restarts the second counter to 0 seconds.
 function restartCounter() {
     seconds=0;
     decimals=0;
 }
+
+// This function restarts the chronometer to 0 and if it was playing, it will also stop it.
 function restartChronometer() {
     let button = document.getElementById("play-pause")
     
@@ -162,6 +214,8 @@ function restartChronometer() {
     seconds=0;
     decimals=0;
 }
+
+// The following function starts the chronometer if it was in pause and pauses it if it was playing. 
 function startChrono() {
     let button = document.getElementById("play-pause")
     
@@ -177,6 +231,7 @@ function startChrono() {
     }
 }
 
+// This function stablishes the time you want for the countdown
 function setTimer (){
     let setHours = document.getElementById("hour").valueAsNumber
     let setMinutes = document.getElementById("minute").valueAsNumber
@@ -192,23 +247,7 @@ function setTimer (){
     seconds=timeToSeconds(hours, minutes, secs)
 }
 
-function timeToSeconds (hours, minutes, seconds){
-    return (hours*60*60+minutes*60+seconds)
-}
-
-function secondsToTime (seconds){
-    const date = new Date();
-    let time =  [
-                date.getMonth()+1,
-                date.getDate(),
-                Math.floor(Math.floor(seconds/60) / 60) % 12,
-                Math.floor(seconds/60) % 60,
-                seconds%60
-            ];
-
-    return time;
-}
-
+// The following function restarts the countdown timer and stops it if it was playing
 function restartTimer() {
     let button = document.getElementById("play-pause")
     
@@ -218,6 +257,8 @@ function restartTimer() {
     setTimer();
 }
 
+// This function stablishes an alarm time if there is no time set 
+// If there is, it unsets the alarm. 
 function setAlarm (){
     let btnSetAlarm = document.getElementById("btnSetTime")
     let setHours = document.getElementById("hour").valueAsNumber
@@ -233,37 +274,18 @@ function setAlarm (){
 
     if (alarmSet){
         btnSetAlarm.classList.replace("btn-danger","btn-success")
+        btnSetAlarm.textContent="Set"
         alarmSet=false;
     }
     else{
         btnSetAlarm.classList.replace("btn-success","btn-danger")
         alarmSet=true;
+        btnSetAlarm.textContent="Unset"
         seconds=timeToSeconds(hours, minutes, secs)
     }
 }
 
-function renderHandles (degreesArray, decimals) {
-    let mes = document.getElementById("monthHandle");
-    let dia = document.getElementById("dayHandle");
-    let secundero = document.getElementById("secondHandle");
-    let minutero = document.getElementById("minuteHandle");
-    let hora = document.getElementById("hourHandle");
-
-    secundero.style.rotate = `${degreesArray[4]+(0.6*decimals)}deg`;
-    minutero.style.rotate = `${degreesArray[3]+(6/360*degreesArray[4])}deg`;
-    hora.style.rotate = `${degreesArray[2]+(30/360*(degreesArray[3]+(6/360*degreesArray[4])))}deg`;
-    dia.style.rotate = `${degreesArray[1]}deg`;
-    mes.style.rotate = `${degreesArray[0]}deg`;   
-}
-
-function setActualDecimals () {
-    const date = new Date();
-
-    return Math.floor(date.getMilliseconds()/100)
-}
-
-// Now we create the event listeners for the site selection.
-
+// This function will show up the visual alarm and will also start playing the alarm sound
 function launchAlarm () {
     let alarmAlert = document.getElementById("alarmAlert")
     
@@ -273,6 +295,7 @@ function launchAlarm () {
     alarmActive = true;
 }
 
+// This function contains the event listeners to close the alarm.
 function closeModal () {
     let closeButton = document.getElementById("alarmOff")
     let turnOffButton = document.getElementById("alarmSwitchOff")
@@ -281,6 +304,8 @@ function closeModal () {
     turnOffButton.addEventListener("click", turnAlarmOff)
 }
 
+// This function will be called from the event listeners of the modal buttons to close the alarm. 
+// It closes the alarm window and at the same time switches off the sound.
 function turnAlarmOff () {
     let alarmAlert = document.getElementById("alarmAlert")
     let btnSetAlarm = document.getElementById("btnSetTime")
@@ -294,22 +319,26 @@ function turnAlarmOff () {
     alarmActive=false;
 }
 
+// This function starts the sound of the alarm
 function playAlarm () {
     let audio = document.getElementById("alarmSound")
 
     audio.play();
 }
 
+// This function stops the sound of the alarm
 function stopAlarm () {
     let audio = document.getElementById("alarmSound")
 
     audio.pause();
 }
 
+// The function setInterval renders the site every 0.1 seconds. The reason to do that instead of 1 second is to make
+// the interface more fluid, specially with the event listeners, as otherwise it may happen that we press the button to stop 
+// 1 milisecond after rendering and it passes 1 full second before it actually stops the chronometer for example. 
+// This also gives the impression to the Analogic Watch to move the handles in a more fluid way.
 
-
-
-
+// Inside the setInterval function we have all the logic to render each part of the site according to the relevant selections and functions
 setInterval(() => {
     let watchSelector = document.getElementById("watchSelector");
 
@@ -383,7 +412,7 @@ setInterval(() => {
         if (!digital) renderHandles(transformToDegrees(actualTimeAnalog()), decimals)
     }
     if (active[4]==="active"){
-        ReactDOM.render(<Home digits={actualTimeDigital()} alarmActive={alarmActive} closeModal={closeModal} digital={digital} active={active}/>, document.querySelector("#app"));
+        ReactDOM.render(<Home digits={actualTimeDigital()} digital={digital} active={active}/>, document.querySelector("#app"));
         
         decimals= setActualDecimals()
 

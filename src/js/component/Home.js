@@ -1,4 +1,7 @@
 import React from "react";
+
+// We import all the components that will be used in the Home section.
+
 import Header from "./Header";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
@@ -10,11 +13,12 @@ import Watch from "./Watch";
 import AlertAlarm from "./AlertAlarm";
 import AlarmSound from "./AlarmSound";
 
-//include images into your bundle
+// The properties that we receive from the index.js are the following:
+//
+// "active" is an array wich contains the section of the site that is active at the moment. By default when loading, it should be the Secon Counter
+// "digital" is a boolean created to select the type of watch we will render: analogic or digital
+// "digits" is an array that will provide each of the digits for the digital watch to be rendered
 
-
-
-//create your first component
 const Home = (props) => {
 	if (props.active[0] === "active"){
 		return (
@@ -46,8 +50,8 @@ const Home = (props) => {
 				{props.digital ?  <Counter digits={props.digits}/> : <Watch /> }
 				<SetTime />
 				<Controls />
-				<AlarmSound closeModal={props.closeModal}/>
-				<AlertAlarm alarmActive={props.alarmActive}/>
+				<AlarmSound />
+				<AlertAlarm />
 				<Footer />
 			</>
 		);
@@ -69,8 +73,8 @@ const Home = (props) => {
 				<Navbar active={props.active}/>
 				{props.digital ?  <Counter digits={props.digits}/> : <Watch /> }
 				<SetTime />
-				<AlertAlarm closeModal={props.closeModal}/>
-				<AlarmSound alarmActive={props.alarmActive}/>
+				<AlertAlarm />
+				<AlarmSound />
 				<Footer />
 			</>
 		);

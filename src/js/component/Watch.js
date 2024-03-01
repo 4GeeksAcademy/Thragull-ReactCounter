@@ -1,5 +1,6 @@
 import React from "react";
 
+// We import the images for each component of the analogic watch
 import secundero from "../../img/secundero.png";
 import horaria from "../../img/Horaria.png";
 import minutero from "../../img/Minutero.png";
